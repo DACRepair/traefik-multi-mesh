@@ -7,14 +7,11 @@ ENV TRAEFIK_USER ""
 ENV TRAEFIK_PASS ""
 
 WORKDIR /usr/src/app
+COPY App .
+COPY requirements.txt .
+COPY server.py .
 
-COPY App /usr/src/app
-COPY requirements.txt /usr/src/app
-COPY server.py /usr/src/app
-
-RUN mkdir /usr/src/app/config.d
 VOLUME /usr/src/app/config.d
-
 RUN pip install -r requirements.txt
 
 ENTRYPOINT ["python", "server.py"]
