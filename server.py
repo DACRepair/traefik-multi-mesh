@@ -7,14 +7,20 @@ from App.Traefik.TraefikAPI import Traefik
 
 @click.command()
 @click.option('--refresh', default=os.getenv("APP_REFRESH", 10), help="Refresh speed (seconds).")
-@click.option('--dir', default=os.getenv("APP_CONFIG", "./config.d"), help="Config directory to scan.")
+@click.option('--dirname', default=os.getenv("APP_CONFIG", "./config.d"), help="Config directory to scan.")
 @click.option('--url', default=os.getenv("TRAEFIK_URL", "http://127.0.0.1:8080"), help="Traefik Output Node Base URL")
 @click.option('--user', default=os.getenv("TRAEFIK_USER", ""), help="Traefik Output Node Auth Username")
 @click.option('--password', default=os.getenv("TRAEFIK_PASS", ""), help="Traefik Output Node Auth Password")
-def run_server(refresh, dir, url, user, password):
+def run_server(refresh, dirname, url, user, password):
+    refresh = int(refresh)
+    dirname = str(dirname).lstrip('"').rstrip('"')
+    url = str(url).lstrip('"').rstrip('"')
+    user = str(user).lstrip('"').rstrip('"')
+    password = str(password).lstrip('"').rstrip('"')
+
     output = Traefik(url, user, password)
     while True:
-        config = Config(os.path.normpath(dir))
+        config = Config(os.path.normpath(dirname))
         backends = {}
         frontends = {}
         routes = []
