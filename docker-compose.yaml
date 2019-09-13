@@ -1,4 +1,4 @@
-version: '3'
+version: '3.4'
 services:
   traefik:
     image: 'traefik:alpine'
@@ -6,6 +6,7 @@ services:
       - "80:80"
       - "443:443"
       - "8080:8080"
+    network_mode: host
     command:
       - "--entrypoints=Name:http Address::80 Compress:true"
       - "--entrypoints=Name:https Address::443 TLS Compress:true"
@@ -32,3 +33,4 @@ services:
       - .env
     volumes:
       - "./config.d:/usr/src/app/config.d"
+    network_mode: host
