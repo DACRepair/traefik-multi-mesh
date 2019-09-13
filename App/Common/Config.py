@@ -4,7 +4,7 @@ from glob import glob
 
 
 class Instance(object):
-    class API:
+    class _API:
         def __init__(self, data):
             self.url = data['url']
             self.user = data['user']
@@ -17,7 +17,7 @@ class Instance(object):
         def __repr__(self):
             return self.__str__()
 
-    class Endpoint:
+    class _Endpoint:
         def __init__(self, name: str = "", address: str = ""):
             self.name = name
             self.address = address
@@ -29,13 +29,13 @@ class Instance(object):
             return self.__str__()
 
     name: str
-    api: API
-    endpoints: [Endpoint()]
+    api: _API
+    endpoints: [_Endpoint()]
 
     def __init__(self, name: str, data: dict):
         self.name = name
-        self.api = self.API(data['api'])
-        self.endpoints = [self.Endpoint(n, a) for n, a in data['endpoints'].items()]
+        self.api = self._API(data['api'])
+        self.endpoints = [self._Endpoint(n, a) for n, a in data['endpoints'].items()]
 
     def __str__(self):
         return str(self.__dict__)
