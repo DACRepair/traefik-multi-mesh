@@ -7,9 +7,7 @@ ENV TRAEFIK_USER ""
 ENV TRAEFIK_PASS ""
 
 WORKDIR /usr/src/app
-COPY App .
-COPY requirements.txt .
-COPY server.py .
+COPY * .
 RUN du -h
 
 VOLUME /usr/src/app/config.d
