@@ -1,0 +1,34 @@
+version: '3'
+services:
+  traefik:
+    image: 'traefik:alpine'
+    ports:
+      - "80:80"
+      - "443:443"
+      - "8080:8080"
+    command:
+      - "--entrypoints=Name:http Address::80 Compress:true"
+      - "--entrypoints=Name:https Address::443 TLS Compress:true"
+      - "--entrypoints=Name:traefik Address::8080"
+      - --acme
+      - --acme.acmelogging
+      - --acme.onhostrule
+      - --acme.entrypoint=https
+      - "--acme.email=${ACME_EMAIL}"
+      - --acme.httpchallenge
+      - --acme.storage=/data/acme.json
+      - --api
+      - --api.dashboard
+      - --api.entrypoint=traefik
+      - --rest
+      - --rest.entrypoint=traefik
+      - --insecureskipverify
+    volumes:
+      - "./data:/data"
+
+  mesh-service:
+    build: .
+    env_file:
+      - .env
+    volumes:
+      - "./config.d:/usr/src/app/config.d"
