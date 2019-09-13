@@ -15,5 +15,4 @@ RUN du -h
 VOLUME /usr/src/app/config.d
 RUN pip install -r requirements.txt
 
-ENTRYPOINT ["python", "server.py"]
-CMD [""]
+CMD ["python", "server.py"]
