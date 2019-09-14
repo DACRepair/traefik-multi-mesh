@@ -35,13 +35,15 @@ def run_server(refresh, dirname, url, user, password):
             data = instance.provider()
             if data is not None:
                 for key in data.keys():
-                    if len(data[key].keys()) > 0:
+                    if len(data[key].keys()) > 0 and 'frontends' in data[key].keys():
                         for frontend, params in data[key]['frontends'].items():
                             frontend = "{}_{}".format(cfg.name, frontend)
                             if cfg.api.entrypoint in params['entryPoints'] or cfg.api.entrypoint == '*':
                                 params['backend'] = cfg.name
                                 frontends[frontend] = params
                                 routes.extend([str(x['rule']).lower() for x in dict(params['routes']).values()])
+                    else:
+                        pass
 
         dupes = list(set([x for x in routes if routes.count(x) > 1]))
         if len(dupes) > 0:
@@ -58,7 +60,6 @@ def run_server(refresh, dirname, url, user, password):
         frontends = _frontends
 
         payload = {'frontends': frontends, 'backends': backends}
-        print(payload)
         output.put(payload=payload)
 
         time.sleep(int(refresh))

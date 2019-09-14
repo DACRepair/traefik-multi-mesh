@@ -24,7 +24,7 @@ services:
       - --rest
       - --rest.entrypoint=traefik
       - --insecureskipverify
-      - "--loglevel=DEBUG"
+      - "--loglevel=${TRAEFIK_LOGLEVEL}"
     volumes:
       - "./data:/data"
 
