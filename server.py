@@ -4,6 +4,8 @@ import time
 from App.Common.Config import Config
 from App.Traefik.TraefikAPI import Traefik
 
+from pprint import pprint
+
 
 @click.command()
 @click.option('--refresh', default=os.getenv("APP_REFRESH", 10), help="Refresh speed (seconds).")
@@ -35,9 +37,9 @@ def run_server(refresh, dirname, url, user, password):
             data = instance.provider()
             if data is not None:
                 for key in data.keys():
-                    if len(data[key].keys()) > 0 and 'frontends' in data[key].keys():
+                    if len(data[key].keys()) > 0:
                         for frontend, params in data[key]['frontends'].items():
-                            frontend = "{}_{}".format(cfg.name, frontend)
+                            frontend = "{}-{}".format(cfg.name, frontend)
                             if cfg.api.entrypoint in params['entryPoints'] or cfg.api.entrypoint == '*':
                                 params['backend'] = cfg.name
                                 frontends[frontend] = params
