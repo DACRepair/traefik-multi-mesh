@@ -58,6 +58,7 @@ def run_server(refresh, dirname, url, user, password):
         frontends = _frontends
 
         payload = {'frontends': frontends, 'backends': backends}
+        print(payload)
         output.put(payload=payload)
 
         time.sleep(int(refresh))
