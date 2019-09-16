@@ -2,7 +2,10 @@ import click
 import os
 import time
 from App.Common.Config import Config
+from App.Common.Diff import dict_diff
 from App.Traefik.TraefikAPI import Traefik
+
+import pprint
 
 
 @click.command()
@@ -12,11 +15,14 @@ from App.Traefik.TraefikAPI import Traefik
 @click.option('--user', default=os.getenv("TRAEFIK_USER", ""), help="Traefik Output Node Auth Username")
 @click.option('--password', default=os.getenv("TRAEFIK_PASS", ""), help="Traefik Output Node Auth Password")
 @click.option('--entrypoint', default=os.getenv('TRAEFIK_ENTRYPOINT', '*'), help="Entrypoint to look for / filter on")
-def run_server(refresh, dirname, url, user, password, entrypoint):
+@click.option('--entrypoints', default=os.getenv('TRAEFIK_ENTRYPOINTS', 'http, https'), help="Entrypoints to listen on")
+def run_server(refresh, dirname, url, user, password, entrypoint, entrypoints):
     dirname = str(dirname).lstrip('"').rstrip('"')
     url = str(url).lstrip('"').rstrip('"')
     user = str(user).lstrip('"').rstrip('"')
     password = str(password).lstrip('"').rstrip('"')
+    entrypoint = str(entrypoint).lstrip('"').rstrip('"')
+    entrypoints = str(entrypoints).lstrip('"').rstrip('"').replace(" ", "").split(",")
 
     while True:
         config = Config(os.path.normpath(dirname))
@@ -49,10 +55,12 @@ def run_server(refresh, dirname, url, user, password, entrypoint):
                                 parameters['priority'] += (len([r for r in rules if r == route['rule']]) + 1)
                             rules.append(route['rule'])
                         if entrypoint == '*' or entrypoint in parameters['entryPoints']:
+                            parameters['entryPoints'] = entrypoints
                             frontends.update({"{}-{}".format(conf.name, frontend.split("_")[-1]): parameters})
 
         payload = {'frontends': frontends, 'backends': backends}
-        output.put(payload=payload)
+        if not dict_diff(payload, output.provider()['web']):
+            output.put(payload=payload)
 
         time.sleep(int(refresh))
 
