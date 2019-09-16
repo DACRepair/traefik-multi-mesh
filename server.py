@@ -59,7 +59,7 @@ def run_server(refresh, dirname, url, user, password, entrypoint, entrypoints):
                             frontends.update({"{}-{}".format(conf.name, frontend.split("_")[-1]): parameters})
 
         payload = {'frontends': frontends, 'backends': backends}
-        if not dict_diff(payload, output.provider()['web']):
+        if not dict_diff(payload, output.provider()):
             output.put(payload=payload)
 
         time.sleep(int(refresh))
