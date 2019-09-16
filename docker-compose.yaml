@@ -1,5 +1,6 @@
 version: '3.4'
 services:
+
   traefik:
     image: 'traefik:alpine'
     ports:
@@ -30,6 +31,8 @@ services:
 
   mesh-service:
     build: .
+    depends_on:
+      - traefik
     env_file:
       - .env
     volumes:
