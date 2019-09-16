@@ -5,6 +5,7 @@ ENV APP_CONFIG "/usr/src/app/config.d"
 ENV TRAEFIK_URL "https://127.0.0.1:8080"
 ENV TRAEFIK_USER ""
 ENV TRAEFIK_PASS ""
+ENV TRAEFIK_ENTRYPOINT "*"
 
 WORKDIR /usr/src/app
 COPY server.py ./

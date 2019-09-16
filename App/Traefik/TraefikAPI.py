@@ -16,7 +16,7 @@ class Traefik:
     def _get(self, method: str, params: dict = None):
         retr = None
         for base_url in self.base_urls:
-            base_url = base_url.lstrip("/") + "/api/"
+            base_url = base_url.lstrip("/") + "/api"
             try:
                 retr = self.session.get(url="{}/{}".format(base_url, method), params=params)
                 break
@@ -27,7 +27,7 @@ class Traefik:
     def _put(self, method: str, data):
         retr = None
         for base_url in self.base_urls:
-            base_url = base_url.lstrip("/") + "/api/"
+            base_url = base_url.lstrip("/") + "/api"
             try:
                 retr = self.session.put(url="{}/{}".format(base_url, method), data=data)
                 break

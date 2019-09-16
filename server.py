@@ -4,8 +4,6 @@ import time
 from App.Common.Config import Config
 from App.Traefik.TraefikAPI import Traefik
 
-from pprint import pprint
-
 
 @click.command()
 @click.option('--refresh', default=os.getenv("APP_REFRESH", 10), help="Refresh speed (seconds).")
@@ -13,53 +11,45 @@ from pprint import pprint
 @click.option('--url', default=os.getenv("TRAEFIK_URL", "http://127.0.0.1:8080"), help="Traefik Output Node Base URL")
 @click.option('--user', default=os.getenv("TRAEFIK_USER", ""), help="Traefik Output Node Auth Username")
 @click.option('--password', default=os.getenv("TRAEFIK_PASS", ""), help="Traefik Output Node Auth Password")
-def run_server(refresh, dirname, url, user, password):
-    refresh = int(refresh)
+@click.option('--entrypoint', default=os.getenv('TRAEFIK_ENTRYPOINT', '*'), help="Entrypoint to look for / filter on")
+def run_server(refresh, dirname, url, user, password, entrypoint):
     dirname = str(dirname).lstrip('"').rstrip('"')
     url = str(url).lstrip('"').rstrip('"')
     user = str(user).lstrip('"').rstrip('"')
     password = str(password).lstrip('"').rstrip('"')
 
-    output = Traefik(url, user, password)
     while True:
         config = Config(os.path.normpath(dirname))
-        backends = {}
+        output = Traefik(url, user, password)
+
         frontends = {}
-        routes = []
-        for e in config.instances:
-            cfg = config.get(e)
-            backends[cfg.name] = {
-                'loadBalancer': {'method': 'drr'},
-                'servers': {s.name: {'url': s.address, 'weight': 1} for s in cfg.endpoints}
-            }
+        backends = {}
+        rules = []
 
-            instance = Traefik(cfg.api.url, cfg.api.user, cfg.api.password)
-            data = instance.provider()
-            if data is not None:
-                for key in data.keys():
-                    if len(data[key].keys()) > 0:
-                        for frontend, params in data[key]['frontends'].items():
-                            frontend = "{}-{}".format(cfg.name, frontend)
-                            if cfg.api.entrypoint in params['entryPoints'] or cfg.api.entrypoint == '*':
-                                params['backend'] = cfg.name
-                                frontends[frontend] = params
-                                routes.extend([str(x['rule']).lower() for x in dict(params['routes']).values()])
-                    else:
-                        pass
+        for conf in config.instances:
+            conf = config.get(conf)
+            traefik = Traefik(conf.api.url, conf.api.user, conf.api.password)
 
-        dupes = list(set([x for x in routes if routes.count(x) > 1]))
-        if len(dupes) > 0:
-            print("There are duplicate hostnames in the rules: {}".format(", ".join(dupes)))
+            backends.update({
+                conf.name: {
+                    'loadBalancer': {'method': 'drr'},
+                    'servers': {e.name: {'url': e.address, 'weight': 1} for e in conf.endpoints}
+                }
+            })
 
-        _frontends = {}
-        for frontend, params in frontends.items():
-            dupe = False
-            for d in dupes:
-                if d in str(params).lower():
-                    dupe = True
-            if not dupe:
-                _frontends[frontend] = params
-        frontends = _frontends
+            providers = traefik.provider()
+            providers = providers.values() if providers is not None else {}
+            for provider in providers:
+                if len(provider) > 0 and 'frontends' in provider.keys():
+                    provider = provider['frontends']
+                    for frontend, parameters in provider.items():
+                        parameters['backend'] = conf.name
+                        for route in parameters['routes'].values():
+                            if route['rule'] in rules and str(route['rule']).startswith('Host'):
+                                parameters['priority'] += (len([r for r in rules if r == route['rule']]) + 1)
+                            rules.append(route['rule'])
+                        if entrypoint == '*' or entrypoint in parameters['entryPoints']:
+                            frontends.update({"{}-{}".format(conf.name, frontend.split("_")[-1]): parameters})
 
         payload = {'frontends': frontends, 'backends': backends}
         output.put(payload=payload)

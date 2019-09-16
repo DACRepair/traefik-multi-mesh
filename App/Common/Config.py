@@ -9,7 +9,6 @@ class Instance(object):
             self.url = data['url']
             self.user = data['user']
             self.password = data['password']
-            self.entrypoint = data['entrypoint']
 
         def __str__(self):
             return str(self.__dict__)
