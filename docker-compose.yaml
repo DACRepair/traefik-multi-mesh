@@ -18,6 +18,7 @@ services:
       - --acme.entrypoint=https
       - "--acme.email=${ACME_EMAIL}"
       - --acme.httpchallenge
+      - "--acme.httpchallenge,entrypoint=http"
       - --acme.storage=/data/acme.json
       - --api
       - --api.dashboard
