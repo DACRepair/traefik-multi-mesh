@@ -1,11 +1,9 @@
 import click
 import os
 import time
-from App.Common.Config import Config
-from App.Common.Diff import dict_diff
-from App.Traefik.TraefikAPI import Traefik
-
-import pprint
+from meshserver.App.Common.Config import Config
+from meshserver.App.Common.Diff import dict_diff
+from meshserver.App import Traefik
 
 
 @click.command()
