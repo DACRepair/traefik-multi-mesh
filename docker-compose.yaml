@@ -2,6 +2,8 @@ version: '3.4'
 services:
   traefik:
     image: 'traefik:1.7-alpine'
+    depends_on:
+      - consul
     network_mode: host
     ports:
       - "80:80"
@@ -26,6 +28,9 @@ services:
       - --rest.entrypoint=traefik
       - --insecureskipverify
       - "--loglevel=${TRAEFIK_LOGLEVEL}"
+      - --consul
+      - "--consul.endpoint=consul:8500"
+      - "--consul.prefix=traefik"
 
   consul:
     image: consul
