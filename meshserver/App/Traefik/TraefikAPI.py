@@ -1,5 +1,5 @@
 import json
-from requests import Session
+from requests import Session, Response
 
 
 class Traefik:
@@ -14,7 +14,7 @@ class Traefik:
             self.session.auth = None
 
     def _get(self, method: str, params: dict = None):
-        retr = None
+        retr = Response()
         for base_url in self.base_urls:
             base_url = base_url.lstrip("/") + "/api"
             try:
@@ -25,7 +25,7 @@ class Traefik:
         return retr
 
     def _put(self, method: str, data):
-        retr = None
+        retr = Response()
         for base_url in self.base_urls:
             base_url = base_url.lstrip("/") + "/api"
             try:
