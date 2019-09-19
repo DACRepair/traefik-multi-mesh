@@ -16,4 +16,4 @@ COPY App ./App
 VOLUME /config
 RUN pip install -r requirements.txt
 
-CMD ["python", "server.py"]
+ENTRYPOINT ["python", "server.py"]
