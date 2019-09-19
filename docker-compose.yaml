@@ -28,7 +28,7 @@ services:
       - --insecureskipverify
       - "--loglevel=${TRAEFIK_LOGLEVEL}"
     volumes:
-      - "./data:/data"
+      - "./Data:/data"
 
   mesh-service:
     build: .
@@ -37,5 +37,5 @@ services:
     env_file:
       - .env
     volumes:
-      - "./config.d:/usr/src/app/config.d"
+      - "./Config:/usr/src/app/Config"
     network_mode: host
