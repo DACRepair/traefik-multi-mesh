@@ -10,7 +10,7 @@ ENV MESH_TRAEFIK_ENTRYPOINTS "http,https"
 
 WORKDIR /usr/src/app
 COPY server.py ./
-COPY ../requirements.txt ./
+COPY requirements.txt ./
 COPY App ./App
 
 VOLUME /config
