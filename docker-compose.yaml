@@ -46,12 +46,10 @@ services:
       - "-client=${CONSUL_BIND}"
       - "-bootstrap-expect=${CONSUL_BOOTSTRAP}"
 
-#  mesh-service:
-#    build: .
-#    depends_on:
-#      - traefik
-#    env_file:
-#      - .env
-#    volumes:
-#      - "./Config:/usr/src/app/Config"
-#    network_mode: host
+  mesh-service:
+    build: ./meshserver
+    network_mode: host
+    depends_on:
+      - traefik
+    volumes:
+      - "./config:/config"

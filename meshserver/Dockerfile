@@ -1,19 +1,19 @@
 FROM python:3-alpine
 
-ENV APP_REFRESH 10
-ENV APP_CONFIG "/usr/src/app/Config"
-ENV TRAEFIK_URL "https://127.0.0.1:8080"
-ENV TRAEFIK_USER ""
-ENV TRAEFIK_PASS ""
-ENV TRAEFIK_ENTRYPOINT "*"
-ENV TRAEFIK_ENTRYPOINTS "http,https"
+ENV MESH_REFRESH 10
+ENV MESH_CONFIG "/config"
+ENV MESH_TRAEFIK_URL "https://127.0.0.1:8080"
+ENV MESH_TRAEFIK_USER ""
+ENV MESH_TRAEFIK_PASS ""
+ENV MESH_TRAEFIK_ENTRYFILTER "*"
+ENV MESH_TRAEFIK_ENTRYPOINTS "http,https"
 
 WORKDIR /usr/src/app
 COPY server.py ./
 COPY ../requirements.txt ./
 COPY App ./App
 
-VOLUME /usr/src/app/Config
+VOLUME /config
 RUN pip install -r requirements.txt
 
 CMD ["python", "server.py"]
