@@ -51,5 +51,6 @@ services:
     network_mode: host
     depends_on:
       - traefik
+    command: --delay 10
     volumes:
       - "./config:/config"

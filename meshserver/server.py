@@ -19,6 +19,7 @@ from App.Traefik.TraefikAPI import Traefik
 @click.option('--entrypoints', default=os.getenv('MESH_TRAEFIK_ENTRYPOINTS', 'http, https'),
               help="Entrypoints to listen on")
 def run_server(delay, refresh, dirname, url, user, password, entrypoint, entrypoints):
+    print("Startup Delay: {}s".format(str(delay)))
     time.sleep(int(delay))
 
     dirname = str(dirname).lstrip('"').rstrip('"')
