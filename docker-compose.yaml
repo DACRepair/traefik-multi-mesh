@@ -41,8 +41,9 @@ services:
       - agent
       - -server
       - -ui
-      - "--bind=${CONSUL_BIND}"
-      - "--client=${CONSUL_BIND}"
+      - "-dns-port=-1"
+      - "-bind=${CONSUL_BIND}"
+      - "-client=${CONSUL_BIND}"
       - "-bootstrap-expect=${CONSUL_BOOTSTRAP}"
 
 #  mesh-service:
