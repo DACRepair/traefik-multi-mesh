@@ -43,7 +43,7 @@ class Traefik:
         if retr.status_code == 200:
             return retr.json()
         else:
-            return None
+            return {}
 
     def put(self, provider: str = "rest", payload: dict = None):
         method = "providers/{}".format(provider)
