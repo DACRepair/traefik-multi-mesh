@@ -29,11 +29,12 @@ services:
       - --insecureskipverify
       - "--loglevel=${TRAEFIK_LOGLEVEL}"
       - --consul
-      - "--consul.endpoint=consul:8500"
+      - "--consul.endpoint=127.0.0.1:8500"
       - "--consul.prefix=traefik"
 
   consul:
     image: consul
+    network_mode: host
     ports:
       - "8500:8500"
       - "8300:8300"
