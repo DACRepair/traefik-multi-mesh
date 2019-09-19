@@ -37,8 +37,8 @@ services:
       - agent
       - -server
       - -ui
-      - "--bind ${CONSUL_BIND}"
-      - "--client ${CONSUL_BIND}"
+      - "--bind=${CONSUL_BIND}"
+      - "--client=${CONSUL_BIND}"
 
 #  mesh-service:
 #    build: .
