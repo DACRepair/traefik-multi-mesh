@@ -35,9 +35,10 @@ services:
       - "8300:8300"
     command:
       - agent
-      - --server
-      - --ui
-
+      - -server
+      - -ui
+      - "--bind ${CONSUL_BIND}"
+      - "--client ${CONSUL_BIND}"
 
 #  mesh-service:
 #    build: .
