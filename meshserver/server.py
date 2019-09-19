@@ -1,9 +1,9 @@
 import click
 import os
 import time
-from .App.Common.Config import Config
-from .App.Common.Diff import dict_diff
-from .App.Traefik.TraefikAPI import Traefik
+from App.Common.Config import Config
+from App.Common.Diff import dict_diff
+from App.Traefik.TraefikAPI import Traefik
 
 
 @click.command()
