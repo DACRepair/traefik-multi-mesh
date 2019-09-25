@@ -20,7 +20,7 @@ services:
       - "--acme.email=${TRAEFIK_ACME_EMAIL}"
       - --acme.httpchallenge
       - "--acme.httpchallenge.entrypoint=http"
-      - "--acme.storage=traefik"
+      - "--acme.storage=traefik/acme"
       - --api
       - --api.dashboard
       - "--api.entrypoint=traefik"
