@@ -44,6 +44,7 @@ services:
       - "-bind=${CONSUL_BIND}"
       - "-client=${CONSUL_BIND}"
       - "-bootstrap-expect=${CONSUL_BOOTSTRAP}"
+      - "-data-dir=/var/consul"
     volumes:
       - "./data:/var/consul"
 
