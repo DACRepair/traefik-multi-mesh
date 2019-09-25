@@ -2,8 +2,6 @@ version: '3.4'
 services:
   traefik:
     image: 'traefik:1.7-alpine'
-    depends_on:
-      - consul
     network_mode: host
     ports:
       - "80:80"
@@ -27,26 +25,7 @@ services:
       - "--rest.entrypoint=traefik"
       - --insecureskipverify
       - "--loglevel=${TRAEFIK_LOGLEVEL}"
-      - --consul
-      - "--consul.endpoint=127.0.0.1:8500"
-      - "--consul.prefix=traefik"
-
-  consul:
-    image: consul
-    ports:
-      - "8500:8500"
-      - "8300:8300"
-    command:
-      - agent
-      - -server
-      - -ui
-      - "-dns-port=-1"
-      - "-bind=${CONSUL_BIND}"
-      - "-client=${CONSUL_BIND}"
-      - "-bootstrap-expect=${CONSUL_BOOTSTRAP}"
-      - "-data-dir=/var/consul"
-    volumes:
-      - "./data:/var/consul"
+      - "${TRAEFIK_OPTS}"
 
   mesh-service:
     build: ./meshserver
