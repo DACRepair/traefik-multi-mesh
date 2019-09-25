@@ -18,9 +18,8 @@ services:
       - --acme.onhostrule
       - "--acme.entrypoint=https"
       - "--acme.email=${TRAEFIK_ACME_EMAIL}"
-      - --acme.httpchallenge
-      - "--acme.httpchallenge.entrypoint=http"
-      - "--acme.storage=traefik/acme"
+      - --acme.tlschallenge
+      - "--acme.storage=traefik/acme/account"
       - --api
       - --api.dashboard
       - "--api.entrypoint=traefik"
