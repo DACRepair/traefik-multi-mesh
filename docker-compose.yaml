@@ -25,7 +25,7 @@ services:
       - "--rest.entrypoint=traefik"
       - --insecureskipverify
       - "--loglevel=${TRAEFIK_LOGLEVEL}"
-      - "${TRAEFIK_OPTS}"
+      - ${TRAEFIK_OPTS}
 
   mesh-service:
     build: ./meshserver
