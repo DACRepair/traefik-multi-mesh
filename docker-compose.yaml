@@ -25,7 +25,9 @@ services:
       - "--rest.entrypoint=traefik"
       - --insecureskipverify
       - "--loglevel=${TRAEFIK_LOGLEVEL}"
-      - ${TRAEFIK_OPTS}
+      - --consul
+      - "--consul.endpoint=${TRAEFIK_CONSUL}"
+      - "--consul.prefix=traefik"
 
   mesh-service:
     build: ./meshserver
