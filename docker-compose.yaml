@@ -16,16 +16,16 @@ services:
       - --acme
       - --acme.acmelogging
       - --acme.onhostrule
-      - --acme.entrypoint=https
+      - --"acme.entrypoint=https"
       - "--acme.email=${TRAEFIK_ACME_EMAIL}"
       - --acme.httpchallenge
       - "--acme.httpchallenge.entrypoint=http"
-      - --acme.storage=/data/acme.json
+      - "--acme.storage=traefik"
       - --api
       - --api.dashboard
-      - --api.entrypoint=traefik
+      - "--api.entrypoint=traefik"
       - --rest
-      - --rest.entrypoint=traefik
+      - "--rest.entrypoint=traefik"
       - --insecureskipverify
       - "--loglevel=${TRAEFIK_LOGLEVEL}"
       - --consul
