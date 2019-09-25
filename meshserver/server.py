@@ -5,18 +5,23 @@ from App.Common.Config import Config
 from App.Common.Diff import dict_diff
 from App.Traefik.TraefikAPI import Traefik
 
-import pprint
-
 
 @click.command()
-@click.option('--refresh', default=os.getenv("APP_REFRESH", 10), help="Refresh speed (seconds).")
-@click.option('--dirname', default=os.getenv("APP_CONFIG", "./config.d"), help="Config directory to scan.")
-@click.option('--url', default=os.getenv("TRAEFIK_URL", "http://127.0.0.1:8080"), help="Traefik Output Node Base URL")
-@click.option('--user', default=os.getenv("TRAEFIK_USER", ""), help="Traefik Output Node Auth Username")
-@click.option('--password', default=os.getenv("TRAEFIK_PASS", ""), help="Traefik Output Node Auth Password")
-@click.option('--entrypoint', default=os.getenv('TRAEFIK_ENTRYPOINT', '*'), help="Entrypoint to look for / filter on")
-@click.option('--entrypoints', default=os.getenv('TRAEFIK_ENTRYPOINTS', 'http, https'), help="Entrypoints to listen on")
-def run_server(refresh, dirname, url, user, password, entrypoint, entrypoints):
+@click.option('--delay', default=1, help="Start Delay")
+@click.option('--refresh', default=os.getenv("MESH_REFRESH", 10), help="Refresh speed (seconds).")
+@click.option('--dirname', default=os.getenv("MESH_CONFIG", "./config.d"), help="Config directory to scan.")
+@click.option('--url', default=os.getenv("MESH_TRAEFIK_URL", "http://127.0.0.1:8080"),
+              help="Traefik Output Node Base URL")
+@click.option('--user', default=os.getenv("MESH_TRAEFIK_USER", ""), help="Traefik Output Node Auth Username")
+@click.option('--password', default=os.getenv("MESH_TRAEFIK_PASS", ""), help="Traefik Output Node Auth Password")
+@click.option('--entrypoint', default=os.getenv('MESH_TRAEFIK_ENTRYFILTER', '*'),
+              help="Entrypoint to look for / filter on")
+@click.option('--entrypoints', default=os.getenv('MESH_TRAEFIK_ENTRYPOINTS', 'http, https'),
+              help="Entrypoints to listen on")
+def run_server(delay, refresh, dirname, url, user, password, entrypoint, entrypoints):
+    click.echo("Startup Delay: {}s".format(str(delay)))
+    time.sleep(int(delay))
+
     dirname = str(dirname).lstrip('"').rstrip('"')
     url = str(url).lstrip('"').rstrip('"')
     user = str(user).lstrip('"').rstrip('"')
