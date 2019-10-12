@@ -3,6 +3,8 @@ services:
   traefik:
     image: 'traefik:1.7-alpine'
     network_mode: host
+    logging:
+      driver: none
     ports:
       - "80:80"
       - "443:443"
@@ -32,6 +34,8 @@ services:
   mesh-service:
     build: ./meshserver
     network_mode: host
+    logging:
+      driver: none
     depends_on:
       - traefik
     command: --delay 10
