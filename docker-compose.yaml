@@ -3,8 +3,6 @@ services:
   traefik:
     image: 'traefik:1.7-alpine'
     network_mode: host
-    logging:
-      driver: none
     ports:
       - "80:80"
       - "443:443"
@@ -31,11 +29,18 @@ services:
       - "--consul.endpoint=${TRAEFIK_CONSUL}"
       - "--consul.prefix=traefik"
 
+  consul:
+    image: consul
+    network_mode: host
+    environment:
+      - CONSUL_BIND_INTERFACE=${CONSUL_INTERFACE}
+    command: agent server -dev
+    volumes:
+      - "./data:/consul/data"
+  
   mesh-service:
     build: ./meshserver
     network_mode: host
-    logging:
-      driver: none
     depends_on:
       - traefik
     command: --delay 10
