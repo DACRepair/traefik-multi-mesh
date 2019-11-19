@@ -57,3 +57,11 @@ class Traefik:
         method = "api/providers/{}".format(provider)
         payload = json.dumps(payload)
         return self._put(method, data=payload)
+
+
+class Payload:
+    def __init__(self):
+        pass
+
+    def generate(self):
+        return {}

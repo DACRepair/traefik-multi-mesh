@@ -1,5 +1,11 @@
-requests
+# Web Server
 flask
 flask_admin
+
+# Sync Server
+requests
+dictdiffer
+
+# Backing DB
 sqlalchemy
 pymysql

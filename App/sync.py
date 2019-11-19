@@ -1,7 +1,10 @@
+import dictdiffer
+
 from App.Common.config import TRAEFIK_URL, TRAEFIK_USER, TRAEFIK_PASS
 from App.Common.storage import session_builder
 from App.Model.Backend import Backend
 from App.Traefik.rest import Traefik
+import pprint
 
 
 class Instance:
@@ -40,12 +43,19 @@ class SyncServer:
     def update_instances(self):
         self.instances = [Instance(x) for x in self._get_instances()]
 
-    def check_health(self):
-        if "error" in self.traefik.health().keys():
-            return False
-        else:
-            return True
+    def _get_instance_providers(self, instance: Instance):
+        return Traefik(";".join(instance.api_endpoints))
+
+    def get_frontends(self):
+        frontends = {}
+        for instance in self.instances:
+            frontends[instance.id] = {}
+            i = list(self._get_instance_providers(instance).provider().values())
+            for i in [x['frontends'] for x in i if len(x) > 0]:
+                frontends[instance.id].update(i)
+
+        return frontends
 
 
 s = SyncServer()
-print(s.check_health())
+pprint.pprint(s.get_frontends())

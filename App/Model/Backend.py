@@ -13,6 +13,7 @@ class Backend(base):
     end_url = Column(String(2048))
 
     filter = Column(String(32))
+    weight = Column(Integer, default=0)
 
     enabled = Column(Boolean, default=True)
 
@@ -23,7 +24,8 @@ class BackendView(AppModelView):
         "api_url": "Traefik API URL",
         "end_url": "Traefik Frontend URL",
         "filter": "Endpoint Filter",
-        "enabled": "Active"
+        "enabled": "Active",
+        "weight": "Rule Order Weight"
     }
     column_descriptions = {
         "name": "Backend Name",
