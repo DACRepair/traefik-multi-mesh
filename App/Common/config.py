@@ -1,6 +1,6 @@
 import os
 
-DB_URI = str(os.getenv("DB_URI", "sqlite:///./data/database.sqlite"))
+DB_URI = str(os.getenv("DB_URI", "mysql+pymysql://root:test@127.0.0.1/tmm"))
 
 PANEL_PORT = int(os.getenv("PANEL_PORT", 5000))
 PANEL_HOST = str(os.getenv("PANEL_HOST", "0.0.0.0"))
