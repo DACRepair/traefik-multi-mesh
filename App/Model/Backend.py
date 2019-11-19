@@ -1,5 +1,6 @@
-from App.Common.storage import base
 from sqlalchemy import Column, String, Integer, Boolean
+
+from App.Common.storage import base, AppModelView
 
 
 class Backend(base):
@@ -13,16 +14,20 @@ class Backend(base):
 
     filter = Column(String(32))
 
+    enabled = Column(Boolean, default=True)
 
-backend_desc = {
-    "name": "Name",
-    "api_url": "Traefik API URL",
-    "end_url": "Traefik Frontend URL",
-    "filter": "Endpoint Filter"
-}
-backend_label = {
-    "name": "Backend Name",
-    "api_url": "The Traefik API URL (semicolon delimited)",
-    "end_url": "The Traefik Frontend Address (where traffic will be routed to, semi-colon delimited)",
-    "filter": "Endpoint Filter (looking for this entrypoint to enumerate the rules)"
-}
+
+class BackendView(AppModelView):
+    column_labels = {
+        "name": "Name",
+        "api_url": "Traefik API URL",
+        "end_url": "Traefik Frontend URL",
+        "filter": "Endpoint Filter",
+        "enabled": "Active"
+    }
+    column_descriptions = {
+        "name": "Backend Name",
+        "api_url": "The Traefik API URL (semicolon delimited)",
+        "end_url": "The Traefik Frontend Address (where traffic will be routed to, semi-colon delimited)",
+        "filter": "Endpoint Filter (looking for this entrypoint to enumerate the rules)"
+    }
