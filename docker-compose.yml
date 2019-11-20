@@ -18,6 +18,7 @@ services:
       dockerfile: Dockerfile
     depends_on:
       - mariadb
+      - traefik
     ports:
       - 5000:5000
     env_file:
@@ -40,3 +41,33 @@ services:
       - .env
       - default.env
     command: agent -client=0.0.0.0 -bind=0.0.0.0 ${CONSUL_OPTS}
+
+  traefik:
+    image: 'traefik:1.7-alpine'
+    depends_on:
+      - consul
+    ports:
+      - "80:80"
+      - "443:443"
+      - "8080:8080"
+    command:
+      - "--entrypoints=Name:http Address::80 Compress:true"
+      - "--entrypoints=Name:https Address::443 TLS Compress:true"
+      - "--entrypoints=Name:traefik Address::8080"
+      - "--acme"
+      - "--acme.acmelogging"
+      - "--acme.onhostrule"
+      - "--acme.entrypoint=https"
+      - "--acme.email=${TRAEFIK_ACME_EMAIL}"
+      - "--acme.tlschallenge"
+      - "--acme.storage=traefik/acme/account"
+      - "--api"
+      - "--api.dashboard"
+      - "--api.entrypoint=traefik"
+      - "--rest"
+      - "--rest.entrypoint=traefik"
+      - "--insecureskipverify"
+      - "--loglevel=${TRAEFIK_LOGLEVEL}"
+      - "--consul"
+      - "--consul.endpoint=${TRAEFIK_CONSUL}"
+      - "--consul.prefix=traefik"
