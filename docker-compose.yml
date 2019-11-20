@@ -22,4 +22,3 @@ services:
       - 5000:5000
     environment:
       - DB_URI="mysql+pymysql://tmm:tmm@mariadb/tmm"
-    command: python server.py

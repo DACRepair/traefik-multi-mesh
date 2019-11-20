@@ -18,3 +18,5 @@ COPY App ./App
 RUN du -h
 
 RUN pip install -r requirements.txt
+
+CMD python server.py
