@@ -14,7 +14,7 @@ ENV TRAEFIK_PASS ""
 WORKDIR /usr/src/app
 COPY requirements.txt .
 COPY server.py .
-COPY App .
+COPY App ./App
 RUN du -h
 
 RUN pip install -r requirements.txt
