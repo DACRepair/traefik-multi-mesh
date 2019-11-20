@@ -69,7 +69,7 @@ services:
       - "--acme.dnschallenge"
       - "--acme.dnschallenge.provider=${TRAEFIK_DNS}"
       - "--acme.storage=traefik/acme/account"
-      - "--acme.delaybeforecheck=180"
+      - "--acme.dnschallenge.delaybeforecheck=180"
       - "--api"
       - "--api.dashboard"
       - "--api.entrypoint=traefik"
