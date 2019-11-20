@@ -7,6 +7,8 @@ def getenv(env, default=None):
 
 DB_URI = str(getenv("DB_URI", "mysql+pymysql://root:test@127.0.0.1/tmm"))
 
+LOGLEVEL = str(getenv("LOGLEVEL", "ERROR"))
+
 REFRESH_RATE = int(getenv("REFRESH_RATE", "60"))
 
 PANEL_PORT = int(getenv("PANEL_PORT", 5000))
