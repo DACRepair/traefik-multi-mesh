@@ -64,7 +64,14 @@ class SyncServer:
                 if len(provider) > 0:
                     provider = provider['frontends']
                     for name, rule in provider.items():
-                        if True in [x in instance.filter for x in rule['entryPoints']] or len(instance.filter) == 0:
+                        if len(instance.filter) > 0:
+                            if True in [x in instance.filter for x in rule['entryPoints']]:
+                                r = str(list(rule['routes'].values())[0]['rule'])
+                                if r not in rules:
+                                    rules.append(r)
+                                    rule['backend'] = instance.name
+                                    frontends["{}-{}".format(str(instance.name), str(name).split("_")[-1])] = rule
+                        else:
                             r = str(list(rule['routes'].values())[0]['rule'])
                             if r not in rules:
                                 rules.append(r)
