@@ -28,11 +28,8 @@ services:
   consul:
     image: consul
     restart: unless-stopped
-    network_mode: host
     ports:
       - 8500:8500
-    environment:
-      - CONSUL_BIND_INTERFACE=eth0
     volumes:
       - "./data/consul:/consul/data"
     command: agent -dev -client=0.0.0.0 -bind=0.0.0.0
