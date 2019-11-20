@@ -20,6 +20,9 @@ services:
       - mariadb
     ports:
       - 5000:5000
+    env_file:
+      - .env
+      - default.env
     environment:
       - DB_URI="mysql+pymysql://tmm:tmm@mariadb/tmm"
       - PANEL_USER=${PANEL_USER}
@@ -33,4 +36,7 @@ services:
       - 8500:8500
     volumes:
       - "./data/consul:/consul/data"
+    env_file:
+      - .env
+      - default.env
     command: agent -client=0.0.0.0 -bind=0.0.0.0 ${CONSUL_OPTS}
