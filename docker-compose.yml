@@ -70,7 +70,6 @@ services:
       - "--acme.dnschallenge.provider=${TRAEFIK_DNS}"
       - "--acme.storage=traefik/acme/account"
       - "--acme.delaybeforecheck=180"
-      - "--acme.resolvers=['1.1.1.1:53', '8.8.8.8:53']"
       - "--api"
       - "--api.dashboard"
       - "--api.entrypoint=traefik"
@@ -81,3 +80,4 @@ services:
       - "--consul"
       - "--consul.endpoint=${TRAEFIK_CONSUL}"
       - "--consul.prefix=traefik"
+      - "${TRAEFIK_OPTS}"
