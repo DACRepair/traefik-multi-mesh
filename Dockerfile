@@ -15,5 +15,6 @@ WORKDIR /usr/src/app
 COPY requirements.txt .
 COPY server.py .
 COPY App .
+RUN du -h
 
 RUN pip install -r requirements.txt
