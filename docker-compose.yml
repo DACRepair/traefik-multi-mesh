@@ -26,6 +26,7 @@ services:
       - default.env
     environment:
       - DB_URI="mysql+pymysql://tmm:tmm@mariadb/tmm"
+      - TRAEFIK_URL="http://traefik:8080"
       - PANEL_USER=${PANEL_USER}
       - PANEL_PASS=${PANEL_PASS}
       - REFRESH_RATE=${REFRESH_RATE}
