@@ -13,6 +13,12 @@ class Traefik:
         else:
             self.session.auth = None
 
+    def __str__(self):
+        return "<Traefik Instance: {}>".format(self.base_urls)
+
+    def __repr__(self):
+        return self.__str__()
+
     def _get(self, method: str, params: dict = None):
         retr = Response()
         for base_url in self.base_urls:
