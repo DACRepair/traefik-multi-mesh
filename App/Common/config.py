@@ -12,6 +12,8 @@ REFRESH_RATE = int(getenv("REFRESH_RATE", "60"))
 PANEL_PORT = int(getenv("PANEL_PORT", 5000))
 PANEL_HOST = str(getenv("PANEL_HOST", "0.0.0.0"))
 PANEL_SECRET = str(getenv("PANEL_SECRET", "abcdefgchangeme12345"))
+PANEL_USER = str(getenv("PANEL_USER", ""))
+PANEL_PASS = str(getenv("PANEL_PASS", ""))
 
 TRAEFIK_URL = str(getenv("TRAEFIK_URL", "http://10.1.0.48:8080"))
 TRAEFIK_USER = str(getenv("TRAEFIK_USER", ""))

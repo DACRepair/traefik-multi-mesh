@@ -22,3 +22,5 @@ services:
       - 5000:5000
     environment:
       - DB_URI="mysql+pymysql://tmm:tmm@mariadb/tmm"
+      - PANEL_USER=admin
+      - PANEL_PASS=admin
