@@ -35,4 +35,4 @@ services:
       - CONSUL_BIND_INTERFACE=eth0
     volumes:
       - "./data/consul:/consul/data"
-    command: agent -dev
+    command: agent -dev -client=0.0.0.0 -bind=0.0.0.0
