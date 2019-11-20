@@ -24,3 +24,15 @@ services:
       - DB_URI="mysql+pymysql://tmm:tmm@mariadb/tmm"
       - PANEL_USER=admin
       - PANEL_PASS=admin
+
+  consul:
+    image: consul
+    restart: unless-stopped
+    network_mode: host
+    ports:
+      - 8500:8500
+    environment:
+      - CONSUL_BIND_INTERFACE=eth0
+    volumes:
+      - "./data/consul:/consul/data"
+    command: agent -dev
