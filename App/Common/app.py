@@ -76,4 +76,4 @@ class SyncServer:
         self.update_instances()
         if "error" not in self.traefik.health().keys():
             payload = {"backends": self.get_backends(), "frontends": self.get_frontends()}
-            return self.traefik.put("web", payload).status_code == 200
+            return self.traefik.put("rest", payload).status_code == 200
