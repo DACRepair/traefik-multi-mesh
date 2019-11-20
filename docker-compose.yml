@@ -48,6 +48,9 @@ services:
     env_file:
       - .env
       - default.env
+    environment:
+      - PDNS_API_KEY=${PDNS_API_KEY}
+      - PDNS_API_URL=${PDNS_API_URL}
     depends_on:
       - consul
     ports:
