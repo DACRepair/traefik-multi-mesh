@@ -45,6 +45,9 @@ services:
 
   traefik:
     image: 'traefik:1.7-alpine'
+    env_file:
+      - .env
+      - default.env
     depends_on:
       - consul
     ports:
@@ -60,8 +63,8 @@ services:
       - "--acme.onhostrule"
       - "--acme.entrypoint=https"
       - "--acme.email=${TRAEFIK_ACME_EMAIL}"
-      - "--acme.httpchallenge"
-      - "--acme.httpchallenge.entrypoint=http"
+      - "--acme.dnschallenge"
+      - "--acme.dnschallenge.provider=${TRAEFIK_DNS}"
       - "--acme.storage=traefik/acme/account"
       - "--api"
       - "--api.dashboard"
